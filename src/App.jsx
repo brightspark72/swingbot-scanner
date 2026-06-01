@@ -279,7 +279,7 @@ export default function SwingBotScanner() {
       const [marketRes, trendingRes, dexRes] = await Promise.allSettled([
         fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h,7d"),
         fetch("https://api.coingecko.com/api/v3/search/trending"),
-        fetch("https://api.dexscreener.com/token-profiles/latest/v1"),
+        fetch("/api/dexscreener"),
       ]);
       if (marketRes.status === "fulfilled" && marketRes.value.ok) {
         const d = await marketRes.value.json();
