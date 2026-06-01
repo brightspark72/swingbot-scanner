@@ -24,7 +24,7 @@ function scoreBreakdown({ athDiscount, volMcap, isTrending, devCommits, circulat
     else if (athDiscount >= 40) parts.price = 10;
     else parts.price = 0;
   } else {
-    parts.price = 10; // DEX tokens assumed deeply early-stage
+    parts.price = 5; // Lower base so DEX tokens don't dominate over scored CoinGecko coins
   }
   // Volume — 20 pts
   if (isDex) {
@@ -351,8 +351,8 @@ export default function SwingBotScanner() {
 
   // Build DexScreener entries
   const dexEntries = (round === "mid" ? [] : dexTokens).map((t, i) => {
-    const dexVolume = t.volume?.h24 || 0;
-    const dexLiquidity = t.liquidity?.usd || 0;
+    const dexVolume = t.volume24h || t.volume?.h24 || 0;
+    const dexLiquidity = t.liquidity || t.liquidity?.usd || 0;
     const isTrending = true; // DexScreener feed is already trending tokens
     const scores = scoreBreakdown({ athDiscount: 0, volMcap: 0, isTrending, devCommits: 0, circulatingPct: 50, mcap: 0, round, isDex: true, dexVolume, dexLiquidity });
 
